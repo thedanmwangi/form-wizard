@@ -19,7 +19,7 @@ export default function NotFound() {
           </h1>
 
           <p className='mb-4 text-xl font-bold tracking-tight text-neutral-900 dark:text-white md:text-2xl lg:text-3xl'>
-            Someone is far away from home!
+            Not found
           </p>
 
           <p className='mb-4 text-lg font-light text-neutral-500 dark:text-neutral-400'>

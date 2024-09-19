@@ -1,5 +1,3 @@
-import { ReactNode } from 'react';
-
 export type FontFaceType = {
   displayName: string;
   tailwindName: string;
@@ -13,7 +11,6 @@ export type FontSizeType = {
 };
 
 export type TextAlignmentType = {
-  displayIcon: ReactNode;
   displayName: string;
   tailwindName: string;
   styleName: 'left' | 'center' | 'right';

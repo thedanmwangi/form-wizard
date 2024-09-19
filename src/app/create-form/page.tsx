@@ -21,9 +21,11 @@ import {
   MdKeyboardArrowUp,
 } from 'react-icons/md';
 
+import { createForm } from '@/actions/form-actions';
 import fonts from '@/data/fonts.json';
 import textSizes from '@/data/text_sizes.json';
 import { FontFaceType, FontSizeType, TextAlignmentType } from '@/types/types';
+import { useMutation } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { BiAlignLeft, BiAlignMiddle, BiAlignRight } from 'react-icons/bi';
 import { toast } from 'sonner';
@@ -44,7 +46,6 @@ export default function CreateFormPage() {
 
   const [titleTextAlignment, setTitleTextAlignment] =
     useState<TextAlignmentType | null>({
-      displayIcon: <BiAlignLeft className='block h-6 w-6 fill-current' />,
       displayName: 'Align left',
       tailwindName: 'text-left',
       styleName: 'left',
@@ -65,7 +66,6 @@ export default function CreateFormPage() {
 
   const [subtitleTextAlignment, setSubtitleTextAlignment] =
     useState<TextAlignmentType | null>({
-      displayIcon: <BiAlignLeft className='block h-6 w-6 fill-current' />,
       displayName: 'Align left',
       tailwindName: 'text-left',
       styleName: 'left',
@@ -138,6 +138,51 @@ export default function CreateFormPage() {
           textSize.displayName.includes(queryButtonTextSize)
         );
 
+  const {
+    mutate: saveForm,
+    data: savedForm,
+    isPending: isPendingSavedForm,
+    isError: isErrorSavedForm,
+    error: errorSavedForm,
+  } = useMutation({
+    mutationFn: () => {
+      return createForm(
+        title,
+        selectedTitleFontFace,
+        selectedTitleFontSize,
+        titleTextColor,
+        titleTextAlignment,
+        // Subtitle
+        subtitle,
+        selectedSubtitleFontFace,
+        selectedSubtitleFontSize,
+        subtitleTextColor,
+        subtitleTextAlignment,
+        // Inputs
+        isFirstNameRequired,
+        isLastNameRequired,
+        isEmailRequired,
+        // Button
+        buttonText,
+        selectedButtonTextFontFace,
+        selectedButtonTextFontSize,
+        buttonColor
+      );
+    },
+
+    onSuccess: (data) => {
+      toast.success('Success', {
+        description: `Form ${data.title} saved.`,
+      });
+    },
+
+    onError: (error) => {
+      toast.error('Failed', {
+        description: error.message,
+      });
+    },
+  });
+
   // Check if user has added a filter
   const hasFilterValue =
     title !== '' ||
@@ -162,7 +207,6 @@ export default function CreateFormPage() {
     setSelectedTitleFontSize(null);
     setTitleTextColor('');
     setTitleTextAlignment({
-      displayIcon: <BiAlignLeft className='block h-6 w-6 fill-current' />,
       displayName: 'Align left',
       tailwindName: 'text-left',
       styleName: 'left',
@@ -172,7 +216,6 @@ export default function CreateFormPage() {
     setSelectedSubtitleFontSize(null);
     setSubtitleTextColor('');
     setSubtitleTextAlignment({
-      displayIcon: <BiAlignLeft className='block h-6 w-6 fill-current' />,
       displayName: 'Align left',
       tailwindName: 'text-left',
       styleName: 'left',
@@ -230,9 +273,9 @@ export default function CreateFormPage() {
                       variant={'primary'}
                       size={'normal'}
                       isPill={false}
-                      isLoading={false}
-                      isDisabled={false}
-                      // onClick={openDrawer}
+                      isLoading={isPendingSavedForm}
+                      isDisabled={isPendingSavedForm}
+                      onClick={() => saveForm()}
                     />
                   </div>
                 </div>
@@ -481,7 +524,15 @@ export default function CreateFormPage() {
                                     setIsAnyToggleChanged(true);
                                   }}
                                 >
-                                  {textAlignment.displayIcon}
+                                  {textAlignment.styleName === 'left' ? (
+                                    <BiAlignLeft className='block h-6 w-6 fill-current' />
+                                  ) : textAlignment.styleName === 'center' ? (
+                                    <BiAlignMiddle className='block h-6 w-6 fill-current' />
+                                  ) : textAlignment.styleName === 'right' ? (
+                                    <BiAlignRight className='block h-6 w-6 fill-current' />
+                                  ) : (
+                                    <></>
+                                  )}
                                 </button>
                               ))}
                             </div>
@@ -748,7 +799,15 @@ export default function CreateFormPage() {
                                     setIsAnyToggleChanged(true);
                                   }}
                                 >
-                                  {textAlignment.displayIcon}
+                                  {textAlignment.styleName === 'left' ? (
+                                    <BiAlignLeft className='block h-6 w-6 fill-current' />
+                                  ) : textAlignment.styleName === 'center' ? (
+                                    <BiAlignMiddle className='block h-6 w-6 fill-current' />
+                                  ) : textAlignment.styleName === 'right' ? (
+                                    <BiAlignRight className='block h-6 w-6 fill-current' />
+                                  ) : (
+                                    <></>
+                                  )}
                                 </button>
                               ))}
                             </div>
@@ -1292,19 +1351,16 @@ export default function CreateFormPage() {
 
 const textAlignments: TextAlignmentType[] = [
   {
-    displayIcon: <BiAlignLeft className='block h-6 w-6 fill-current' />,
     displayName: 'Align left',
     tailwindName: 'text-left',
     styleName: 'left',
   },
   {
-    displayIcon: <BiAlignMiddle className='block h-6 w-6 fill-current' />,
     displayName: 'Align center',
     tailwindName: 'text-center',
     styleName: 'center',
   },
   {
-    displayIcon: <BiAlignRight className='block h-6 w-6 fill-current' />,
     displayName: 'Align right',
     tailwindName: 'text-right',
     styleName: 'right',

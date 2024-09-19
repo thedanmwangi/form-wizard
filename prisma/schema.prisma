@@ -18,25 +18,25 @@ model Form {
   id                    String   @id @default(cuid())
   // Title
   title                 String
-  titleFontFace         String
-  titleFontSize         String
-  titleTextColor        String
-  titleTextAlignment    String
+  titleFontFace         Json?
+  titleFontSize         Json?
+  titleTextColor        String?
+  titleTextAlignment    Json?
   // Subtitle
   subtitle              String
-  subtitleFontFace      String
-  subtitleFontSize      String
-  subtitleTextColor     String
-  subtitleTextAlignment String
+  subtitleFontFace      Json?
+  subtitleFontSize      Json?
+  subtitleTextColor     String?
+  subtitleTextAlignment Json?
   // Inputs
-  isFirstNameRequired   Boolean  @default(false)
-  isLastNameRequired    Boolean  @default(false)
-  isEmailRequired       Boolean  @default(true)
+  isFirstNameRequired   Boolean? @default(false)
+  isLastNameRequired    Boolean? @default(false)
+  isEmailRequired       Boolean? @default(true)
   // Button
   buttonText            String
-  buttonTextFontFace    String
-  buttonTextFontSize    String
-  buttonColor           String
+  buttonTextFontFace    Json?
+  buttonTextFontSize    Json?
+  buttonColor           String?
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 }

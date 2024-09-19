@@ -50,21 +50,19 @@ export default function Header() {
               {/* Theme changer Button and Menu */}
               {isMounted && renderThemeDropdown()}
 
-              {pathname === '/' && (
-                <Link
-                  href='/create-form'
-                  className='inline-flex items-center justify-center rounded-lg bg-primary-700 px-3.5 py-2 text-center text-base font-normal text-white hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900'
-                >
-                  Design your form
-                </Link>
-              )}
-
-              {pathname === '/create-form' && (
+              {pathname === '/create-form' ? (
                 <Link
                   href='/#view-forms'
                   className='inline-flex items-center justify-center rounded-lg border-neutral-300 px-3.5 py-2 text-center text-base font-normal text-neutral-500 hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-neutral-200 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:ring-neutral-600'
                 >
                   View created forms
+                </Link>
+              ) : (
+                <Link
+                  href='/create-form'
+                  className='inline-flex items-center justify-center rounded-lg bg-primary-700 px-3.5 py-2 text-center text-base font-normal text-white hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900'
+                >
+                  Design your form
                 </Link>
               )}
             </div>
