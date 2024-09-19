@@ -1,0 +1,67 @@
+[
+  {
+    "displayName": "12 px",
+    "tailwindName": "text-xs",
+    "styleName": "12px"
+  },
+  {
+    "displayName": "14 px",
+    "tailwindName": "text-sm",
+    "styleName": "14px"
+  },
+  {
+    "displayName": "16 px",
+    "tailwindName": "text-base",
+    "styleName": "16px"
+  },
+  {
+    "displayName": "18 px",
+    "tailwindName": "text-lg",
+    "styleName": "18px"
+  },
+  {
+    "displayName": "20 px",
+    "tailwindName": "text-xl",
+    "styleName": "20px"
+  },
+  {
+    "displayName": "24 px",
+    "tailwindName": "text-2xl",
+    "styleName": "24px"
+  },
+  {
+    "displayName": "30 px",
+    "tailwindName": "text-3xl",
+    "styleName": "30px"
+  },
+  {
+    "displayName": "36 px",
+    "tailwindName": "text-4xl",
+    "styleName": "36px"
+  },
+  {
+    "displayName": "48 px",
+    "tailwindName": "text-5xl",
+    "styleName": "48px"
+  },
+  {
+    "displayName": "60 px",
+    "tailwindName": "text-6xl",
+    "styleName": "60px"
+  },
+  {
+    "displayName": "72 px",
+    "tailwindName": "text-7xl",
+    "styleName": "72px"
+  },
+  {
+    "displayName": "96 px",
+    "tailwindName": "text-8xl",
+    "styleName": "96px"
+  },
+  {
+    "displayName": "128 px",
+    "tailwindName": "text-9xl",
+    "styleName": "128px"
+  }
+]

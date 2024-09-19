@@ -1,0 +1,52 @@
+[
+  {
+    "displayName": "Arial",
+    "tailwindName": "font-['Arial']",
+    "styleName": "Arial, sans-serif"
+  },
+  {
+    "displayName": "Verdana",
+    "tailwindName": "font-['Verdana']",
+    "styleName": "Verdana, sans-serif"
+  },
+  {
+    "displayName": "Helvetica",
+    "tailwindName": "font-['Helvetica']",
+    "styleName": "Helvetica, sans-serif"
+  },
+  {
+    "displayName": "Times New Roman",
+    "tailwindName": "font-['Times_New_Roman']",
+    "styleName": "Times New Roman, serif"
+  },
+  {
+    "displayName": "Courier New",
+    "tailwindName": "font-['Courier_New']",
+    "styleName": "Courier New, monospace"
+  },
+  {
+    "displayName": "Georgia",
+    "tailwindName": "font-['Georgia']",
+    "styleName": "Georgia, serif"
+  },
+  {
+    "displayName": "Trebuchet MS",
+    "tailwindName": "font-['Trebuchet_MS']",
+    "styleName": "Trebuchet MS, sans-serif"
+  },
+  {
+    "displayName": "Comic Sans MS",
+    "tailwindName": "font-['Comic_Sans_MS']",
+    "styleName": "Comic Sans MS, cursive"
+  },
+  {
+    "displayName": "Lucida Sans",
+    "tailwindName": "font-['Lucida_Sans']",
+    "styleName": "Lucida Sans, sans-serif"
+  },
+  {
+    "displayName": "Tahoma",
+    "tailwindName": "font-['Tahoma']",
+    "styleName": "Tahoma, sans-serif"
+  }
+]
