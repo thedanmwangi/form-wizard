@@ -61,9 +61,13 @@ export default function CreateFormPage() {
 
   const [titleColor, setTitleColor] = useState<string>('');
 
-  const [titleTextAlignment, setTitleTextAlignment] = useState<
-    'left' | 'center' | 'right'
-  >('left');
+  const [titleTextAlignment, setTitleTextAlignment] =
+    useState<TextAlignmentType | null>({
+      displayIcon: <BiAlignLeft className='block h-6 w-6 fill-current' />,
+      displayName: 'Align left',
+      tailwindName: 'text-left',
+      styleName: 'left',
+    });
 
   // SUBTITLE Preferences Hooks
   const [subtitle, setSubtitle] = useState<string>('');
@@ -78,7 +82,7 @@ export default function CreateFormPage() {
 
   const [subtitleColor, setSubtitleColor] = useState<string>('');
 
-  const [subtitleTextAlignment, setSubTitleTextAlignment] =
+  const [subtitleTextAlignment, setSubtitleTextAlignment] =
     useState<TextAlignmentType | null>({
       displayIcon: <BiAlignLeft className='block h-6 w-6 fill-current' />,
       displayName: 'Align left',
@@ -92,7 +96,7 @@ export default function CreateFormPage() {
 
   const [isLastNameRequired, setIsLastNameRequired] = useState<boolean>(false);
 
-  const [isEmailRequired] = useState<boolean>(true);
+  const [isEmailRequired, setIsEmailRequired] = useState<boolean>(true);
 
   // BUTTON Preferences Hooks
   const [buttonText, setButtonText] = useState<string>('');
@@ -107,6 +111,9 @@ export default function CreateFormPage() {
   const [queryButtonTextSize, setQueryButtonTextSize] = useState('');
 
   const [buttonColor, setButtonColor] = useState<string>('');
+
+  // Checks if any button, toggle is changed
+  const [isAnyToggleChanged, setIsAnyToggleChanged] = useState<boolean>(false);
 
   // Filter Title font, text based on the query
   const filteredTitleFonts =
@@ -147,6 +154,55 @@ export default function CreateFormPage() {
           textSize.displayName.includes(queryButtonTextSize)
         );
 
+  // Check if user has added a filter
+  const hasFilterValue =
+    title !== '' ||
+    selectedTitleFont !== null ||
+    selectedTitleTextSize !== null ||
+    titleColor !== '' ||
+    subtitle !== '' ||
+    selectedSubtitleFont !== null ||
+    selectedSubtitleTextSize !== null ||
+    subtitleColor !== '' ||
+    isFirstNameRequired ||
+    isLastNameRequired ||
+    buttonText !== '' ||
+    selectedButtonFont !== null ||
+    selectedButtonTextSize !== null ||
+    buttonColor !== '' ||
+    isAnyToggleChanged;
+
+  const clearAllSelections = () => {
+    setTitle('');
+    setSelectedTitleFont(null);
+    setSelectedTitleTextSize(null);
+    setTitleColor('');
+    setTitleTextAlignment({
+      displayIcon: <BiAlignLeft className='block h-6 w-6 fill-current' />,
+      displayName: 'Align left',
+      tailwindName: 'text-left',
+      styleName: 'left',
+    });
+    setSubtitle('');
+    setSelectedSubtitleFont(null);
+    setSelectedSubtitleTextSize(null);
+    setSubtitleColor('');
+    setSubtitleTextAlignment({
+      displayIcon: <BiAlignLeft className='block h-6 w-6 fill-current' />,
+      displayName: 'Align left',
+      tailwindName: 'text-left',
+      styleName: 'left',
+    });
+    setIsFirstNameRequired(false);
+    setIsLastNameRequired(false);
+    setIsEmailRequired(true);
+    setButtonText('');
+    setSelectedButtonFont(null);
+    setSelectedButtonTextSize(null);
+    setButtonColor('');
+    setIsAnyToggleChanged(false);
+  };
+
   return (
     <>
       <section className='bg-neutral-100 pb-4 pt-20 dark:bg-neutral-950'>
@@ -166,6 +222,37 @@ export default function CreateFormPage() {
           <div className='grid gap-8 lg:grid-cols-12 lg:py-16'>
             <div className='w-full lg:col-span-5'>
               {/* Left Hand side */}
+
+              {/* Add a button to submit or clear when data is input */}
+              {hasFilterValue && (
+                <div className='relative w-full'>
+                  <div className='mx-4 mt-4 flex items-center justify-between gap-2'>
+                    <Button
+                      text={'Clear all'}
+                      type={'button'}
+                      className={'w-full'}
+                      variant={'secondary'}
+                      size={'normal'}
+                      isPill={false}
+                      isLoading={false}
+                      isDisabled={false}
+                      onClick={clearAllSelections}
+                    />
+
+                    <Button
+                      text={'Save'}
+                      type={'button'}
+                      className={'w-full'}
+                      variant={'primary'}
+                      size={'normal'}
+                      isPill={false}
+                      isLoading={false}
+                      isDisabled={false}
+                      // onClick={openDrawer}
+                    />
+                  </div>
+                </div>
+              )}
 
               <Disclosure
                 as='div'
@@ -205,6 +292,7 @@ export default function CreateFormPage() {
                               type={'text'}
                               placeholder={'Enter your title'}
                               className='block w-full rounded-lg border border-neutral-300 bg-neutral-50 p-2.5 text-neutral-900 focus:border-primary-600 focus:ring-primary-600 dark:border-neutral-600 dark:bg-neutral-700 dark:text-white dark:placeholder-neutral-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm'
+                              value={title}
                               onChange={(event) => setTitle(event.target.value)}
                             />
                           </div>
@@ -399,16 +487,15 @@ export default function CreateFormPage() {
                                   type={'button'}
                                   key={index}
                                   className={clsx(
-                                    titleTextAlignment ===
+                                    titleTextAlignment?.styleName ===
                                       textAlignment.styleName
-                                      ? 'mx-1 items-center rounded-lg p-2 text-sm text-neutral-500 bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-neutral-200 dark:text-neutral-400 dark:bg-neutral-700 dark:focus:ring-neutral-600'
+                                      ? 'mx-1 items-center rounded-lg p-2 text-sm text-neutral-500 bg-neutral-200 focus:outline-none focus:ring-2 focus:ring-neutral-200 dark:text-neutral-400 dark:bg-neutral-700 dark:focus:ring-neutral-600'
                                       : 'mx-1 items-center rounded-lg p-2 text-sm text-neutral-500 hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-neutral-200 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:ring-neutral-600'
                                   )}
-                                  onClick={() =>
-                                    setTitleTextAlignment(
-                                      textAlignment.styleName
-                                    )
-                                  }
+                                  onClick={() => {
+                                    setTitleTextAlignment(textAlignment);
+                                    setIsAnyToggleChanged(true);
+                                  }}
                                 >
                                   {textAlignment.displayIcon}
                                 </button>
@@ -460,6 +547,7 @@ export default function CreateFormPage() {
                               type={'text'}
                               placeholder={'Enter your subtitle'}
                               className='block w-full rounded-lg border border-neutral-300 bg-neutral-50 p-2.5 text-neutral-900 focus:border-primary-600 focus:ring-primary-600 dark:border-neutral-600 dark:bg-neutral-700 dark:text-white dark:placeholder-neutral-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm'
+                              value={subtitle}
                               onChange={(event) =>
                                 setSubtitle(event.target.value)
                               }
@@ -664,12 +752,13 @@ export default function CreateFormPage() {
                                   className={clsx(
                                     subtitleTextAlignment?.styleName ===
                                       textAlignment.styleName
-                                      ? 'mx-1 items-center rounded-lg p-2 text-sm text-neutral-500 bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-neutral-200 dark:text-neutral-400 dark:bg-neutral-700 dark:focus:ring-neutral-600'
+                                      ? 'mx-1 items-center rounded-lg p-2 text-sm text-neutral-500 bg-neutral-200 focus:outline-none focus:ring-2 focus:ring-neutral-200 dark:text-neutral-400 dark:bg-neutral-700 dark:focus:ring-neutral-600'
                                       : 'mx-1 items-center rounded-lg p-2 text-sm text-neutral-500 hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-neutral-200 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:ring-neutral-600'
                                   )}
-                                  onClick={() =>
-                                    setSubTitleTextAlignment(textAlignment)
-                                  }
+                                  onClick={() => {
+                                    setSubtitleTextAlignment(textAlignment);
+                                    setIsAnyToggleChanged(true);
+                                  }}
                                 >
                                   {textAlignment.displayIcon}
                                 </button>
@@ -731,11 +820,12 @@ export default function CreateFormPage() {
                                 >
                                   {({ checked }) => (
                                     <button
-                                      onClick={() =>
+                                      onClick={() => {
                                         setIsFirstNameRequired(
                                           !isFirstNameRequired
-                                        )
-                                      }
+                                        );
+                                        setIsAnyToggleChanged(true);
+                                      }}
                                       disabled={false}
                                       defaultChecked={false}
                                       className={`${
@@ -781,11 +871,12 @@ export default function CreateFormPage() {
                                 >
                                   {({ checked }) => (
                                     <button
-                                      onClick={() =>
+                                      onClick={() => {
                                         setIsLastNameRequired(
                                           !isLastNameRequired
-                                        )
-                                      }
+                                        );
+                                        setIsAnyToggleChanged(true);
+                                      }}
                                       disabled={false}
                                       defaultChecked={false}
                                       className={`${
@@ -1108,7 +1199,7 @@ export default function CreateFormPage() {
                 )}
               </Disclosure>
             </div>
-            <div className='lg:col-span-7 lg:flex lg:justify-center'>
+            <div className='sticky top-0 z-10 lg:col-span-7 lg:flex lg:justify-center'>
               {/* Right Hand side */}
               <div className='space-y-4 p-6 sm:p-8 md:space-y-6'>
                 <h1
@@ -1116,7 +1207,7 @@ export default function CreateFormPage() {
                     fontFamily: selectedTitleFont?.styleName,
                     fontSize: selectedTitleTextSize?.styleName,
                     color: titleColor,
-                    textAlign: titleTextAlignment,
+                    textAlign: titleTextAlignment?.styleName,
                   }}
                   className='text-xl font-bold text-neutral-900 dark:text-white md:text-2xl'
                 >
