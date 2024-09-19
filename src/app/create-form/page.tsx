@@ -13,7 +13,7 @@ import {
   Switch,
   Transition,
 } from '@headlessui/react';
-import { Fragment, ReactNode, useState } from 'react';
+import { Fragment, useState } from 'react';
 import { HiMiniChevronUpDown } from 'react-icons/hi2';
 import {
   MdCheck,
@@ -23,28 +23,10 @@ import {
 
 import fonts from '@/data/fonts.json';
 import textSizes from '@/data/text_sizes.json';
+import { FontFaceType, FontSizeType, TextAlignmentType } from '@/types/types';
 import clsx from 'clsx';
 import { BiAlignLeft, BiAlignMiddle, BiAlignRight } from 'react-icons/bi';
 import { toast } from 'sonner';
-
-interface FontFaceType {
-  displayName: string;
-  tailwindName: string;
-  styleName: string;
-}
-
-interface FontSizeType {
-  displayName: string;
-  tailwindName: string;
-  styleName: string;
-}
-
-interface TextAlignmentType {
-  displayIcon: ReactNode;
-  displayName: string;
-  tailwindName: string;
-  styleName: 'left' | 'center' | 'right';
-}
 
 export default function CreateFormPage() {
   // TITLE Preferences Hooks
@@ -100,11 +82,11 @@ export default function CreateFormPage() {
   // BUTTON Preferences Hooks
   const [buttonText, setButtonText] = useState<string>('');
 
-  const [selectedButtonFontFace, setSelectedButtonFontFace] =
+  const [selectedButtonTextFontFace, setSelectedButtonTextFontFace] =
     useState<FontFaceType | null>(null);
-  const [queryButtonFontFace, setQueryButtonFontFace] = useState('');
+  const [queryButtonTextFontFace, setQueryButtonTextFontFace] = useState('');
 
-  const [selectedButtonTextSize, setSelectedButtonTextSize] =
+  const [selectedButtonTextFontSize, setSelectedButtonTextFontSize] =
     useState<FontSizeType | null>(null);
   const [queryButtonTextSize, setQueryButtonTextSize] = useState('');
 
@@ -143,9 +125,11 @@ export default function CreateFormPage() {
 
   // Filter Button font, text based on the query
   const filteredButtonFonts =
-    queryButtonFontFace === ''
+    queryButtonTextFontFace === ''
       ? fonts
-      : fonts.filter((font) => font.displayName.includes(queryButtonFontFace));
+      : fonts.filter((font) =>
+          font.displayName.includes(queryButtonTextFontFace)
+        );
 
   const filteredButtonTextSizes =
     queryButtonTextSize === ''
@@ -167,8 +151,8 @@ export default function CreateFormPage() {
     isFirstNameRequired ||
     isLastNameRequired ||
     buttonText !== '' ||
-    selectedButtonFontFace !== null ||
-    selectedButtonTextSize !== null ||
+    selectedButtonTextFontFace !== null ||
+    selectedButtonTextFontSize !== null ||
     buttonColor !== '' ||
     isAnyToggleChanged;
 
@@ -197,8 +181,8 @@ export default function CreateFormPage() {
     setIsLastNameRequired(false);
     setIsEmailRequired(true);
     setButtonText('');
-    setSelectedButtonFontFace(null);
-    setSelectedButtonTextSize(null);
+    setSelectedButtonTextFontFace(null);
+    setSelectedButtonTextFontSize(null);
     setButtonColor('');
     setIsAnyToggleChanged(false);
   };
@@ -1012,8 +996,8 @@ export default function CreateFormPage() {
                           <div className='flex flex-col space-y-6 md:flex-row md:space-x-6 md:space-y-0'>
                             <div className='w-full'>
                               <Combobox
-                                value={selectedButtonFontFace}
-                                onChange={setSelectedButtonFontFace}
+                                value={selectedButtonTextFontFace}
+                                onChange={setSelectedButtonTextFontFace}
                               >
                                 <div className='relative'>
                                   <ComboboxInput
@@ -1023,7 +1007,9 @@ export default function CreateFormPage() {
                                       font?.displayName
                                     }
                                     onChange={(event) =>
-                                      setQueryButtonFontFace(event.target.value)
+                                      setQueryButtonTextFontFace(
+                                        event.target.value
+                                      )
                                     }
                                     placeholder='Font face'
                                   />
@@ -1039,11 +1025,13 @@ export default function CreateFormPage() {
                                   leave='transition ease-in duration-100'
                                   leaveFrom='opacity-100'
                                   leaveTo='opacity-0'
-                                  afterLeave={() => setQueryButtonFontFace('')}
+                                  afterLeave={() =>
+                                    setQueryButtonTextFontFace('')
+                                  }
                                 >
                                   <ComboboxOptions className='mt-2 max-h-48 w-full overflow-y-auto rounded-lg border bg-white p-1 dark:border-neutral-700 dark:bg-neutral-800'>
                                     {filteredButtonFonts.length === 0 &&
-                                    queryButtonFontFace !== '' ? (
+                                    queryButtonTextFontFace !== '' ? (
                                       <div className='relative cursor-default select-none px-4 py-2 text-xs text-neutral-700 dark:text-white'>
                                         Not found.
                                       </div>
@@ -1093,8 +1081,8 @@ export default function CreateFormPage() {
 
                             <div className='w-full'>
                               <Combobox
-                                value={selectedButtonTextSize}
-                                onChange={setSelectedButtonTextSize}
+                                value={selectedButtonTextFontSize}
+                                onChange={setSelectedButtonTextFontSize}
                               >
                                 <div className='relative'>
                                   <ComboboxInput
@@ -1279,8 +1267,8 @@ export default function CreateFormPage() {
 
                   <Button
                     style={{
-                      fontFamily: selectedButtonFontFace?.styleName,
-                      fontSize: selectedButtonTextSize?.styleName,
+                      fontFamily: selectedButtonTextFontFace?.styleName,
+                      fontSize: selectedButtonTextFontSize?.styleName,
                       backgroundColor: buttonColor,
                     }}
                     text={buttonText || 'Join and Win'}

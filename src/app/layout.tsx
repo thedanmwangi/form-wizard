@@ -9,6 +9,7 @@ import SonnerToastProvider from '@/providers/SonnerToastProvider';
 
 import Footer from '@/components/partials/Footer';
 import Header from '@/components/partials/Header';
+import TanstackQueryProvider from '@/providers/TanstackQueryProvider';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -34,7 +35,11 @@ export const viewport: Viewport = {
   colorScheme: 'light dark',
 };
 
-export default function WebLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html
       lang='en'
@@ -42,12 +47,14 @@ export default function WebLayout({ children }: { children: React.ReactNode }) {
       suppressHydrationWarning
     >
       <body>
-        <AppThemeProvider defaultTheme='light' enableSystem>
-          <Header />
-          {children}
-          <Footer />
-          <SonnerToastProvider />
-        </AppThemeProvider>
+        <TanstackQueryProvider>
+          <AppThemeProvider defaultTheme='light' enableSystem>
+            <Header />
+            {children}
+            <Footer />
+            <SonnerToastProvider />
+          </AppThemeProvider>
+        </TanstackQueryProvider>
       </body>
     </html>
   );

@@ -12,3 +12,31 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Form {
+  // Primary key (Unique ID)
+  id                    String   @id @default(cuid())
+  // Title
+  title                 String
+  titleFontFace         String
+  titleFontSize         String
+  titleTextColor        String
+  titleTextAlignment    String
+  // Subtitle
+  subtitle              String
+  subtitleFontFace      String
+  subtitleFontSize      String
+  subtitleTextColor     String
+  subtitleTextAlignment String
+  // Inputs
+  isFirstNameRequired   Boolean  @default(false)
+  isLastNameRequired    Boolean  @default(false)
+  isEmailRequired       Boolean  @default(true)
+  // Button
+  buttonText            String
+  buttonTextFontFace    String
+  buttonTextFontSize    String
+  buttonColor           String
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
