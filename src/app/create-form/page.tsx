@@ -27,13 +27,13 @@ import clsx from 'clsx';
 import { BiAlignLeft, BiAlignMiddle, BiAlignRight } from 'react-icons/bi';
 import { toast } from 'sonner';
 
-interface FontType {
+interface FontFaceType {
   displayName: string;
   tailwindName: string;
   styleName: string;
 }
 
-interface TextSizeType {
+interface FontSizeType {
   displayName: string;
   tailwindName: string;
   styleName: string;
@@ -50,16 +50,15 @@ export default function CreateFormPage() {
   // TITLE Preferences Hooks
   const [title, setTitle] = useState<string>('');
 
-  const [selectedTitleFont, setSelectedTitleFont] = useState<FontType | null>(
-    null
-  );
-  const [queryTitleFont, setQueryTitleFont] = useState('');
+  const [selectedTitleFontFace, setSelectedTitleFontFace] =
+    useState<FontFaceType | null>(null);
+  const [queryTitleFontFace, setQueryTitleFontFace] = useState('');
 
-  const [selectedTitleTextSize, setSelectedTitleTextSize] =
-    useState<TextSizeType | null>(null);
-  const [queryTitleTextSize, setQueryTitleTextSize] = useState('');
+  const [selectedTitleFontSize, setSelectedTitleFontSize] =
+    useState<FontSizeType | null>(null);
+  const [queryTitleFontSize, setQueryTitleFontSize] = useState('');
 
-  const [titleColor, setTitleColor] = useState<string>('');
+  const [titleTextColor, setTitleTextColor] = useState<string>('');
 
   const [titleTextAlignment, setTitleTextAlignment] =
     useState<TextAlignmentType | null>({
@@ -72,15 +71,15 @@ export default function CreateFormPage() {
   // SUBTITLE Preferences Hooks
   const [subtitle, setSubtitle] = useState<string>('');
 
-  const [selectedSubtitleFont, setSelectedSubtitleFont] =
-    useState<FontType | null>(null);
-  const [querySubtitleFont, setQuerySubtitleFont] = useState('');
+  const [selectedSubtitleFontFace, setSelectedSubtitleFontFace] =
+    useState<FontFaceType | null>(null);
+  const [querySubtitleFontFace, setQuerySubtitleFontFace] = useState('');
 
-  const [selectedSubtitleTextSize, setSelectedSubtitleTextSize] =
-    useState<TextSizeType | null>(null);
-  const [querySubtitleTextSize, setQuerySubtitleTextSize] = useState('');
+  const [selectedSubtitleFontSize, setSelectedSubtitleFontSize] =
+    useState<FontSizeType | null>(null);
+  const [querySubtitleFontSize, setQuerySubtitleFontSize] = useState('');
 
-  const [subtitleColor, setSubtitleColor] = useState<string>('');
+  const [subtitleTextColor, setSubtitleTextColor] = useState<string>('');
 
   const [subtitleTextAlignment, setSubtitleTextAlignment] =
     useState<TextAlignmentType | null>({
@@ -101,13 +100,12 @@ export default function CreateFormPage() {
   // BUTTON Preferences Hooks
   const [buttonText, setButtonText] = useState<string>('');
 
-  const [selectedButtonFont, setSelectedButtonFont] = useState<FontType | null>(
-    null
-  );
-  const [queryButtonFont, setQueryButtonFont] = useState('');
+  const [selectedButtonFontFace, setSelectedButtonFontFace] =
+    useState<FontFaceType | null>(null);
+  const [queryButtonFontFace, setQueryButtonFontFace] = useState('');
 
   const [selectedButtonTextSize, setSelectedButtonTextSize] =
-    useState<TextSizeType | null>(null);
+    useState<FontSizeType | null>(null);
   const [queryButtonTextSize, setQueryButtonTextSize] = useState('');
 
   const [buttonColor, setButtonColor] = useState<string>('');
@@ -117,35 +115,37 @@ export default function CreateFormPage() {
 
   // Filter Title font, text based on the query
   const filteredTitleFonts =
-    queryTitleFont === ''
+    queryTitleFontFace === ''
       ? fonts
-      : fonts.filter((font) => font.displayName.includes(queryTitleFont));
+      : fonts.filter((font) => font.displayName.includes(queryTitleFontFace));
 
   const filteredTitleTextSizes =
-    queryTitleTextSize === ''
+    queryTitleFontSize === ''
       ? textSizes
       : textSizes.filter((textSize) =>
-          textSize.displayName.includes(queryTitleTextSize)
+          textSize.displayName.includes(queryTitleFontSize)
         );
 
   // Filter Subtitle font, text based on the query
   const filteredSubtitleFonts =
-    querySubtitleFont === ''
+    querySubtitleFontFace === ''
       ? fonts
-      : fonts.filter((font) => font.displayName.includes(querySubtitleFont));
+      : fonts.filter((font) =>
+          font.displayName.includes(querySubtitleFontFace)
+        );
 
   const filteredSubtitleTextSizes =
-    querySubtitleTextSize === ''
+    querySubtitleFontSize === ''
       ? textSizes
       : textSizes.filter((textSize) =>
-          textSize.displayName.includes(querySubtitleTextSize)
+          textSize.displayName.includes(querySubtitleFontSize)
         );
 
   // Filter Button font, text based on the query
   const filteredButtonFonts =
-    queryButtonFont === ''
+    queryButtonFontFace === ''
       ? fonts
-      : fonts.filter((font) => font.displayName.includes(queryButtonFont));
+      : fonts.filter((font) => font.displayName.includes(queryButtonFontFace));
 
   const filteredButtonTextSizes =
     queryButtonTextSize === ''
@@ -157,26 +157,26 @@ export default function CreateFormPage() {
   // Check if user has added a filter
   const hasFilterValue =
     title !== '' ||
-    selectedTitleFont !== null ||
-    selectedTitleTextSize !== null ||
-    titleColor !== '' ||
+    selectedTitleFontFace !== null ||
+    selectedTitleFontSize !== null ||
+    titleTextColor !== '' ||
     subtitle !== '' ||
-    selectedSubtitleFont !== null ||
-    selectedSubtitleTextSize !== null ||
-    subtitleColor !== '' ||
+    selectedSubtitleFontFace !== null ||
+    selectedSubtitleFontSize !== null ||
+    subtitleTextColor !== '' ||
     isFirstNameRequired ||
     isLastNameRequired ||
     buttonText !== '' ||
-    selectedButtonFont !== null ||
+    selectedButtonFontFace !== null ||
     selectedButtonTextSize !== null ||
     buttonColor !== '' ||
     isAnyToggleChanged;
 
   const clearAllSelections = () => {
     setTitle('');
-    setSelectedTitleFont(null);
-    setSelectedTitleTextSize(null);
-    setTitleColor('');
+    setSelectedTitleFontFace(null);
+    setSelectedTitleFontSize(null);
+    setTitleTextColor('');
     setTitleTextAlignment({
       displayIcon: <BiAlignLeft className='block h-6 w-6 fill-current' />,
       displayName: 'Align left',
@@ -184,9 +184,9 @@ export default function CreateFormPage() {
       styleName: 'left',
     });
     setSubtitle('');
-    setSelectedSubtitleFont(null);
-    setSelectedSubtitleTextSize(null);
-    setSubtitleColor('');
+    setSelectedSubtitleFontFace(null);
+    setSelectedSubtitleFontSize(null);
+    setSubtitleTextColor('');
     setSubtitleTextAlignment({
       displayIcon: <BiAlignLeft className='block h-6 w-6 fill-current' />,
       displayName: 'Align left',
@@ -197,7 +197,7 @@ export default function CreateFormPage() {
     setIsLastNameRequired(false);
     setIsEmailRequired(true);
     setButtonText('');
-    setSelectedButtonFont(null);
+    setSelectedButtonFontFace(null);
     setSelectedButtonTextSize(null);
     setButtonColor('');
     setIsAnyToggleChanged(false);
@@ -299,18 +299,18 @@ export default function CreateFormPage() {
                           <div className='flex flex-col space-y-6 md:flex-row md:space-x-6 md:space-y-0'>
                             <div className='w-full'>
                               <Combobox
-                                value={selectedTitleFont}
-                                onChange={setSelectedTitleFont}
+                                value={selectedTitleFontFace}
+                                onChange={setSelectedTitleFontFace}
                               >
                                 <div className='relative'>
                                   <ComboboxInput
                                     aria-label='Font'
                                     className='block w-full rounded-lg border border-neutral-300 bg-neutral-50 p-2.5 text-neutral-900 focus:border-primary-500 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-700 dark:text-white dark:placeholder-neutral-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm'
-                                    displayValue={(font: FontType) =>
+                                    displayValue={(font: FontFaceType) =>
                                       font?.displayName
                                     }
                                     onChange={(event) =>
-                                      setQueryTitleFont(event.target.value)
+                                      setQueryTitleFontFace(event.target.value)
                                     }
                                     placeholder='Font face'
                                   />
@@ -326,11 +326,11 @@ export default function CreateFormPage() {
                                   leave='transition ease-in duration-100'
                                   leaveFrom='opacity-100'
                                   leaveTo='opacity-0'
-                                  afterLeave={() => setQueryTitleFont('')}
+                                  afterLeave={() => setQueryTitleFontFace('')}
                                 >
                                   <ComboboxOptions className='mt-2 max-h-48 w-full overflow-y-auto rounded-lg border bg-white p-1 dark:border-neutral-700 dark:bg-neutral-800'>
                                     {filteredTitleFonts.length === 0 &&
-                                    queryTitleFont !== '' ? (
+                                    queryTitleFontFace !== '' ? (
                                       <div className='relative cursor-default select-none px-4 py-2 text-xs text-neutral-700 dark:text-white'>
                                         Not found.
                                       </div>
@@ -380,18 +380,18 @@ export default function CreateFormPage() {
 
                             <div className='w-full'>
                               <Combobox
-                                value={selectedTitleTextSize}
-                                onChange={setSelectedTitleTextSize}
+                                value={selectedTitleFontSize}
+                                onChange={setSelectedTitleFontSize}
                               >
                                 <div className='relative'>
                                   <ComboboxInput
                                     aria-label='Text Size'
                                     className='block w-full rounded-lg border border-neutral-300 bg-neutral-50 p-2.5 text-neutral-900 focus:border-primary-500 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-700 dark:text-white dark:placeholder-neutral-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm'
-                                    displayValue={(textSize: TextSizeType) =>
+                                    displayValue={(textSize: FontSizeType) =>
                                       textSize?.displayName
                                     }
                                     onChange={(event) =>
-                                      setQueryTitleTextSize(event.target.value)
+                                      setQueryTitleFontSize(event.target.value)
                                     }
                                     placeholder='Font size'
                                   />
@@ -407,11 +407,11 @@ export default function CreateFormPage() {
                                   leave='transition ease-in duration-100'
                                   leaveFrom='opacity-100'
                                   leaveTo='opacity-0'
-                                  afterLeave={() => setQueryTitleTextSize('')}
+                                  afterLeave={() => setQueryTitleFontSize('')}
                                 >
                                   <ComboboxOptions className='mt-2 max-h-48 w-full overflow-y-auto rounded-lg border bg-white p-1 dark:border-neutral-700 dark:bg-neutral-800'>
                                     {filteredTitleTextSizes.length === 0 &&
-                                    queryTitleTextSize !== '' ? (
+                                    queryTitleFontSize !== '' ? (
                                       <div className='relative cursor-default select-none px-4 py-2 text-xs text-neutral-700 dark:text-white'>
                                         Not found.
                                       </div>
@@ -462,11 +462,11 @@ export default function CreateFormPage() {
                           <div className='flex flex-col space-y-6 md:flex-row md:space-x-6 md:space-y-0'>
                             <div className='flex w-full items-center'>
                               <input
-                                id='titleColor'
+                                id='titleTextColor'
                                 className='mr-2 block h-11 w-16 cursor-pointer rounded-lg border border-neutral-200 bg-neutral-50 p-1 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-700 md:h-10 md:w-14'
                                 type={'color'}
                                 onChange={(event) =>
-                                  setTitleColor(event.target.value)
+                                  setTitleTextColor(event.target.value)
                                 }
                               />
 
@@ -474,7 +474,7 @@ export default function CreateFormPage() {
                                 <input
                                   type='text'
                                   disabled={true}
-                                  value={titleColor}
+                                  value={titleTextColor}
                                   className='block w-full rounded-lg border border-neutral-300 bg-neutral-50 p-2.5 text-neutral-900 focus:border-primary-600 focus:ring-primary-600 dark:border-neutral-600 dark:bg-neutral-700 dark:text-white dark:placeholder-neutral-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm'
                                   placeholder='#FF0000'
                                 />
@@ -556,18 +556,20 @@ export default function CreateFormPage() {
                           <div className='flex flex-col space-y-6 md:flex-row md:space-x-6 md:space-y-0'>
                             <div className='w-full'>
                               <Combobox
-                                value={selectedSubtitleFont}
-                                onChange={setSelectedSubtitleFont}
+                                value={selectedSubtitleFontFace}
+                                onChange={setSelectedSubtitleFontFace}
                               >
                                 <div className='relative'>
                                   <ComboboxInput
                                     aria-label='Font'
                                     className='block w-full rounded-lg border border-neutral-300 bg-neutral-50 p-2.5 text-neutral-900 focus:border-primary-500 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-700 dark:text-white dark:placeholder-neutral-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm'
-                                    displayValue={(font: FontType) =>
+                                    displayValue={(font: FontFaceType) =>
                                       font?.displayName
                                     }
                                     onChange={(event) =>
-                                      setQuerySubtitleFont(event.target.value)
+                                      setQuerySubtitleFontFace(
+                                        event.target.value
+                                      )
                                     }
                                     placeholder='Font face'
                                   />
@@ -583,11 +585,13 @@ export default function CreateFormPage() {
                                   leave='transition ease-in duration-100'
                                   leaveFrom='opacity-100'
                                   leaveTo='opacity-0'
-                                  afterLeave={() => setQuerySubtitleFont('')}
+                                  afterLeave={() =>
+                                    setQuerySubtitleFontFace('')
+                                  }
                                 >
                                   <ComboboxOptions className='mt-2 max-h-48 w-full overflow-y-auto rounded-lg border bg-white p-1 dark:border-neutral-700 dark:bg-neutral-800'>
                                     {filteredSubtitleFonts.length === 0 &&
-                                    queryTitleFont !== '' ? (
+                                    queryTitleFontFace !== '' ? (
                                       <div className='relative cursor-default select-none px-4 py-2 text-xs text-neutral-700 dark:text-white'>
                                         Not found.
                                       </div>
@@ -637,18 +641,18 @@ export default function CreateFormPage() {
 
                             <div className='w-full'>
                               <Combobox
-                                value={selectedSubtitleTextSize}
-                                onChange={setSelectedSubtitleTextSize}
+                                value={selectedSubtitleFontSize}
+                                onChange={setSelectedSubtitleFontSize}
                               >
                                 <div className='relative'>
                                   <ComboboxInput
                                     aria-label='Text Size'
                                     className='block w-full rounded-lg border border-neutral-300 bg-neutral-50 p-2.5 text-neutral-900 focus:border-primary-500 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-700 dark:text-white dark:placeholder-neutral-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm'
-                                    displayValue={(textSize: TextSizeType) =>
+                                    displayValue={(textSize: FontSizeType) =>
                                       textSize?.displayName
                                     }
                                     onChange={(event) =>
-                                      setQuerySubtitleTextSize(
+                                      setQuerySubtitleFontSize(
                                         event.target.value
                                       )
                                     }
@@ -667,12 +671,12 @@ export default function CreateFormPage() {
                                   leaveFrom='opacity-100'
                                   leaveTo='opacity-0'
                                   afterLeave={() =>
-                                    setQuerySubtitleTextSize('')
+                                    setQuerySubtitleFontSize('')
                                   }
                                 >
                                   <ComboboxOptions className='mt-2 max-h-48 w-full overflow-y-auto rounded-lg border bg-white p-1 dark:border-neutral-700 dark:bg-neutral-800'>
                                     {filteredSubtitleTextSizes.length === 0 &&
-                                    querySubtitleTextSize !== '' ? (
+                                    querySubtitleFontSize !== '' ? (
                                       <div className='relative cursor-default select-none px-4 py-2 text-xs text-neutral-700 dark:text-white'>
                                         Not found.
                                       </div>
@@ -725,11 +729,11 @@ export default function CreateFormPage() {
                           <div className='flex flex-col space-y-6 md:flex-row md:space-x-6 md:space-y-0'>
                             <div className='flex w-full items-center'>
                               <input
-                                id='titleColor'
+                                id='titleTextColor'
                                 className='mr-2 block h-11 w-16 cursor-pointer rounded-lg border border-neutral-200 bg-neutral-50 p-1 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-700 md:h-10 md:w-14'
                                 type={'color'}
                                 onChange={(event) =>
-                                  setSubtitleColor(event.target.value)
+                                  setSubtitleTextColor(event.target.value)
                                 }
                               />
 
@@ -737,7 +741,7 @@ export default function CreateFormPage() {
                                 <input
                                   type='text'
                                   disabled={true}
-                                  value={subtitleColor}
+                                  value={subtitleTextColor}
                                   className='block w-full rounded-lg border border-neutral-300 bg-neutral-50 p-2.5 text-neutral-900 focus:border-primary-600 focus:ring-primary-600 dark:border-neutral-600 dark:bg-neutral-700 dark:text-white dark:placeholder-neutral-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm'
                                   placeholder='#FF0000'
                                 />
@@ -1008,18 +1012,18 @@ export default function CreateFormPage() {
                           <div className='flex flex-col space-y-6 md:flex-row md:space-x-6 md:space-y-0'>
                             <div className='w-full'>
                               <Combobox
-                                value={selectedButtonFont}
-                                onChange={setSelectedButtonFont}
+                                value={selectedButtonFontFace}
+                                onChange={setSelectedButtonFontFace}
                               >
                                 <div className='relative'>
                                   <ComboboxInput
                                     aria-label='Font'
                                     className='block w-full rounded-lg border border-neutral-300 bg-neutral-50 p-2.5 text-neutral-900 focus:border-primary-500 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-700 dark:text-white dark:placeholder-neutral-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm'
-                                    displayValue={(font: FontType) =>
+                                    displayValue={(font: FontFaceType) =>
                                       font?.displayName
                                     }
                                     onChange={(event) =>
-                                      setQueryButtonFont(event.target.value)
+                                      setQueryButtonFontFace(event.target.value)
                                     }
                                     placeholder='Font face'
                                   />
@@ -1035,11 +1039,11 @@ export default function CreateFormPage() {
                                   leave='transition ease-in duration-100'
                                   leaveFrom='opacity-100'
                                   leaveTo='opacity-0'
-                                  afterLeave={() => setQueryButtonFont('')}
+                                  afterLeave={() => setQueryButtonFontFace('')}
                                 >
                                   <ComboboxOptions className='mt-2 max-h-48 w-full overflow-y-auto rounded-lg border bg-white p-1 dark:border-neutral-700 dark:bg-neutral-800'>
                                     {filteredButtonFonts.length === 0 &&
-                                    queryButtonFont !== '' ? (
+                                    queryButtonFontFace !== '' ? (
                                       <div className='relative cursor-default select-none px-4 py-2 text-xs text-neutral-700 dark:text-white'>
                                         Not found.
                                       </div>
@@ -1096,7 +1100,7 @@ export default function CreateFormPage() {
                                   <ComboboxInput
                                     aria-label='Text Size'
                                     className='block w-full rounded-lg border border-neutral-300 bg-neutral-50 p-2.5 text-neutral-900 focus:border-primary-500 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-700 dark:text-white dark:placeholder-neutral-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm'
-                                    displayValue={(textSize: TextSizeType) =>
+                                    displayValue={(textSize: FontSizeType) =>
                                       textSize?.displayName
                                     }
                                     onChange={(event) =>
@@ -1199,14 +1203,14 @@ export default function CreateFormPage() {
                 )}
               </Disclosure>
             </div>
-            <div className='sticky top-0 z-10 lg:col-span-7 lg:flex lg:justify-center'>
+            <div className='lg:col-span-7 lg:flex lg:justify-center'>
               {/* Right Hand side */}
               <div className='space-y-4 p-6 sm:p-8 md:space-y-6'>
                 <h1
                   style={{
-                    fontFamily: selectedTitleFont?.styleName,
-                    fontSize: selectedTitleTextSize?.styleName,
-                    color: titleColor,
+                    fontFamily: selectedTitleFontFace?.styleName,
+                    fontSize: selectedTitleFontSize?.styleName,
+                    color: titleTextColor,
                     textAlign: titleTextAlignment?.styleName,
                   }}
                   className='text-xl font-bold text-neutral-900 dark:text-white md:text-2xl'
@@ -1215,9 +1219,9 @@ export default function CreateFormPage() {
                 </h1>
                 <p
                   style={{
-                    fontFamily: selectedSubtitleFont?.styleName,
-                    fontSize: selectedSubtitleTextSize?.styleName,
-                    color: subtitleColor,
+                    fontFamily: selectedSubtitleFontFace?.styleName,
+                    fontSize: selectedSubtitleFontSize?.styleName,
+                    color: subtitleTextColor,
                     textAlign: subtitleTextAlignment?.styleName,
                   }}
                   className='text-sm font-light text-neutral-500 dark:text-neutral-400'
@@ -1275,7 +1279,7 @@ export default function CreateFormPage() {
 
                   <Button
                     style={{
-                      fontFamily: selectedButtonFont?.styleName,
+                      fontFamily: selectedButtonFontFace?.styleName,
                       fontSize: selectedButtonTextSize?.styleName,
                       backgroundColor: buttonColor,
                     }}
